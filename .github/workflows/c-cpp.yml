@@ -55,10 +55,12 @@ jobs:
     - name: Generate Project
       run: |
         ./premake5.exe --gmcommon=garrysmod_common vs2019
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v1.1
     - name: Build
       run: |
-        cd Job1 & ls & cd projects/windows/vs2019
-        & "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\msbuild.exe" /p:Configuration=ReleaseWithSymbols /p:Platform=Win32 eightbit.sln
+        cd projects/windows/vs2019
+        & msbuild /p:Configuration=ReleaseWithSymbols /p:Platform=Win32 eightbit.sln
     - uses: actions/upload-artifact@v2
       with:
         name: gmsv_eightbit_windows.dll
@@ -66,7 +68,7 @@ jobs:
     - name: Build 64
       run: |
         cd projects/windows/vs2019
-        & "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\msbuild.exe" /p:Configuration=ReleaseWithSymbols /p:Platform=x64 eightbit.sln
+        & msbuild /p:Configuration=ReleaseWithSymbols /p:Platform=x64 eightbit.sln
     - uses: actions/upload-artifact@v2
       with:
         name: gmsv_eightbit_win64.dll
