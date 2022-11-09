@@ -1,11 +1,12 @@
 name: Build
 
 on:
-  workflow_dispatch:
+  push:
+    branches: [ master ]
 
 jobs:
   build-linux:
-    runs-on: jessie
+    runs-on: ubuntu-18.04
     steps:
     - uses: actions/checkout@v2
     - uses: actions/checkout@v2
@@ -38,7 +39,7 @@ jobs:
         name: gmsv_eightbit_linux64.dll
         path: projects/linux/gmake/x86_64/ReleaseWithSymbols/gmsv_eightbit_linux64.dll
   build-windows:
-    runs-on: windows-2019
+    runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
     - uses: actions/checkout@v2
@@ -56,7 +57,7 @@ jobs:
         ./premake5.exe --gmcommon=garrysmod_common vs2019
     - name: Build
       run: |
-        cd projects/windows/vs2019
+        dir & cd projects/windows/vs2019
         & "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\msbuild.exe" /p:Configuration=ReleaseWithSymbols /p:Platform=Win32 eightbit.sln
     - uses: actions/upload-artifact@v2
       with:
@@ -70,3 +71,4 @@ jobs:
       with:
         name: gmsv_eightbit_win64.dll
         path: projects/windows/vs2019/x86_64/ReleaseWithSymbols/gmsv_eightbit_win64.dll
+
